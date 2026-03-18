@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Školní systém</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; background: #f0f2f5; }
+
+        /* ---- PŘIHLAŠOVACÍ STRÁNKA (beze změny) ---- */
+        .login-page { display: flex; justify-content: center; padding: 50px; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        .chyba { background: #ffe0e0; color: #c0392b; border: 1px solid #e74c3c; border-radius: 5px; padding: 10px; margin-bottom: 15px; }
+
+        /* ---- ŠKOLNÍ STRÁNKA PO PŘIHLÁŠENÍ ---- */
+        .navbar { background: #1a73e8; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { font-size: 20px; }
+        .navbar span { font-size: 14px; opacity: 0.9; }
+        .navbar-right { display: flex; align-items: center; gap: 15px; }
+        .nav-btn { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 7px 14px; border-radius: 5px; font-size: 14px; }
+        .nav-btn:hover { background: rgba(255,255,255,0.35); }
+        .nav-btn.cerveny { background: #dc3545; }
+
+        .obsah { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+
+        /* Uvítací banner */
+        .banner { background: white; border-radius: 10px; padding: 25px 30px; margin-bottom: 25px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); border-left: 5px solid #1a73e8; }
+        .banner h2 { color: #1a73e8; margin-bottom: 5px; }
+        .banner p { color: #666; font-size: 15px; }
+
+        /* Kartičky */
+        .karty { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+        .karta { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); text-align: center; }
+        .karta .ikona { font-size: 36px; margin-bottom: 10px; }
+        .karta h3 { font-size: 15px; color: #333; margin-bottom: 5px; }
+        .karta p { font-size: 13px; color: #888; }
+
+        /* Rozvrh */
+        .sekce { background: white; border-radius: 10px; padding: 25px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 25px; }
+        .sekce h3 { margin-bottom: 15px; color: #333; font-size: 17px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 10px; text-align: left; font-size: 14px; color: #555; border-bottom: 2px solid #dee2e6; }
+        td { padding: 10px; font-size: 14px; border-bottom: 1px solid #f0f0f0; color: #333; }
+        tr:last-child td { border-bottom: none; }
+        .odznak { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        .odznak.modry { background: #e8f0fe; color: #1a73e8; }
+        .odznak.zeleny { background: #e6f4ea; color: #2e7d32; }
+        .odznak.oranzovy { background: #fff3e0; color: #e65100; }
+    </style>
+</head>
+<body>
+
+{% with zpravy = get_flashed_messages() %}
+    {% if zpravy %}
+        <div style="display:flex;justify-content:center;padding:20px;">
+            <div style="width:400px;">
+                {% for zprava in zpravy %}
+                    <div class="chyba">⚠️ {{ zprava }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
+
+{% if jmeno %}
+
+<!-- ========== STRÁNKA PO PŘIHLÁŠENÍ ========== -->
+<nav class="navbar">
+    <h1>🏫 Školní systém</h1>
+    <div class="navbar-right">
+        <span>👤 {{ jmeno }}</span>
+        <a href="/profil" class="nav-btn">Můj profil</a>
+        {% if je_admin %}<a href="/admin" class="nav-btn">Admin</a>{% endif %}
+        <a href="/logout" class="nav-btn cerveny">Odhlásit se</a>
+    </div>
+</nav>
+
+<div class="obsah">
+
+    <!-- Uvítání -->
+    <div class="banner">
+        <h2>Vítej zpět, {{ jmeno }}! 👋</h2>
+        <p>Dnes je {{ datum }}. Přejeme příjemný školní den.</p>
+    </div>
+
+    <!-- Kartičky -->
+    <div class="karty">
+        <div class="karta">
+            <div class="ikona">📚</div>
+            <h3>Předměty</h3>
+            <p>6 aktivních předmětů</p>
+        </div>
+        <div class="karta">
+            <div class="ikona">📝</div>
+            <h3>Úkoly</h3>
+            <p>2 úkoly k odevzdání</p>
+        </div>
+        <div class="karta">
+            <div class="ikona">📅</div>
+            <h3>Rozvrh</h3>
+            <p>5 hodin dnes</p>
+        </div>
+    </div>
+
+    <!-- Rozvrh -->
+    <div class="sekce">
+        <h3>📅 Dnešní rozvrh</h3>
+        <table>
+            <tr>
+                <th>Hodina</th>
+                <th>Předmět</th>
+                <th>Učebna</th>
+                <th>Vyučující</th>
+            </tr>
+            <tr>
+                <td>8:00 – 8:45</td>
+                <td>Matematika</td>
+                <td>A12</td>
+                <td>Mgr. Novák</td>
+            </tr>
+            <tr>
+                <td>8:55 – 9:40</td>
+                <td>Český jazyk</td>
+                <td>B04</td>
+                <td>Mgr. Dvořáčková</td>
+            </tr>
+            <tr>
+                <td>9:50 – 10:35</td>
+                <td>Informatika</td>
+                <td>PC2</td>
+                <td>Ing. Procházka</td>
+            </tr>
+            <tr>
+                <td>10:55 – 11:40</td>
+                <td>Angličtina</td>
+                <td>C08</td>
+                <td>Mgr. Horáková</td>
+            </tr>
+            <tr>
+                <td>11:50 – 12:35</td>
+                <td>Fyzika</td>
+                <td>A07</td>
+                <td>RNDr. Krejčí</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Oznámení -->
+    <div class="sekce">
+        <h3>📢 Oznámení</h3>
+        <table>
+            <tr>
+                <th>Datum</th>
+                <th>Zpráva</th>
+                <th>Typ</th>
+            </tr>
+            <tr>
+                <td>17.03.2026</td>
+                <td>Písemka z matematiky – kapitola rovnice</td>
+                <td><span class="odznak oranzovy">Písemka</span></td>
+            </tr>
+            <tr>
+                <td>18.03.2026</td>
+                <td>Odevzdání referátu z češtiny</td>
+                <td><span class="odznak modry">Úkol</span></td>
+            </tr>
+            <tr>
+                <td>20.03.2026</td>
+                <td>Výlet – Národní technické muzeum</td>
+                <td><span class="odznak zeleny">Akce</span></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+{% else %}
+
+<!-- ========== PŘIHLAŠOVACÍ STRÁNKA (beze změny) ========== -->
+<div class="login-page">
+    <div class="box">
+        <h2>Přihlášení</h2>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="heslo" placeholder="Heslo" required>
+            <button type="submit">Přihlásit se</button>
+        </form>
+
+        <hr style="margin: 30px 0;">
+
+        <h2>Nová registrace</h2>
+        <form action="/registrace" method="POST">
+            <input type="text" name="jmeno" placeholder="Celé jméno" required>
+            <input type="number" name="vek" placeholder="Věk" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="heslo" placeholder="Heslo" required>
+            <button type="submit" style="background: #28a745;">Zaregistrovat se</button>
+        </form>
+    </div>
+</div>
+
+{% endif %}
+
+</body>
+</html>

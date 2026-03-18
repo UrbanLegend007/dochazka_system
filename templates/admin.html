@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 50px; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 700px; margin-bottom: 30px; }
+        h1 { text-align: center; color: #fd7e14; }
+        h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #343a40; color: white; padding: 10px; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; text-align: center; }
+        tr:hover { background: #f5f5f5; }
+        .smazat-btn { background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; text-decoration: none; }
+        .zpet-btn { background: #6c757d; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<!-- Tabulka uživatelů -->
+<div class="box">
+    <h1>⚙️ Admin panel</h1>
+    <h2>Registrovaní uživatelé</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Jméno</th>
+            <th>Email</th>
+            <th>Věk</th>
+            <th>Akce</th>
+        </tr>
+        {% for u in uzivatele %}
+        <tr>
+            <td>{{ u[0] }}</td>
+            <td>{{ u[1] }}</td>
+            <td>{{ u[2] }}</td>
+            <td>{{ u[3] }}</td>
+            <td><a href="/smazat/{{ u[0] }}" class="smazat-btn" onclick="return confirm('Opravdu smazat?')">Smazat</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/" class="zpet-btn">← Zpět</a>
+</div>
+
+<!-- Tabulka celé docházky -->
+<div class="box">
+    <h2>Celá docházka</h2>
+    <table>
+        <tr>
+            <th>Email</th>
+            <th>Akce</th>
+            <th>Čas</th>
+        </tr>
+        {% for z in dochazka %}
+        <tr>
+            <td>{{ z[0] }}</td>
+            <td>{{ z[1] }}</td>
+            <td>{{ z[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
