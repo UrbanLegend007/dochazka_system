@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Dokumentace – Docházkový systém</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* TITULNÍ STRANA */
+        .titulni {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .titulni h1 {
+            font-size: 28px;
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+        .titulni .podtitul {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .titulni table {
+            margin: 0 auto;
+            border: none;
+        }
+        .titulni td {
+            padding: 6px 16px;
+            font-size: 15px;
+            border: none;
+            text-align: left;
+        }
+        .titulni td:first-child {
+            color: #888;
+            text-align: right;
+        }
+        .titulni td:last-child {
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* OBSAH */
+        .obsah {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+        }
+        .obsah h2 { margin-top: 0; color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 5px; }
+        .obsah ol { padding-left: 20px; }
+        .obsah li { padding: 4px 0; font-size: 15px; }
+        .obsah a { color: #1a73e8; text-decoration: none; }
+        .obsah a:hover { text-decoration: underline; }
+
+        /* SEKCE */
+        .sekce {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px 35px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #1a73e8;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 6px;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 16px;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+
+        p, li {
+            font-size: 15px;
+            line-height: 1.75;
+            color: #333;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+            margin: 8px 0;
+        }
+
+        li { margin-bottom: 4px; }
+
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: monospace;
+        }
+
+        .kod {
+            background: #2b2b2b;
+            color: #f8f8f2;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.65;
+            margin: 12px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        th {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover td { background: #f0f6ff; }
+
+        .poznamka {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        .upozorneni {
+            background: #fdecea;
+            border-left: 4px solid #e53935;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        .uspech {
+            background: #f0fdf4;
+            border-left: 4px solid #2e7d32;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            font-size: 14px;
+        }
+
+        /* DIAGRAM */
+        .diagram {
+            background: #f8faff;
+            border: 1px solid #dce8ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 14px 0;
+            text-align: center;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 2;
+            color: #333;
+        }
+
+        /* TESTOVACÍ SCÉNÁŘ */
+        .scenar {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+        .scenar-hlavicka {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 16px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .scenar-telo {
+            padding: 14px 16px;
+            font-size: 14px;
+        }
+        .scenar-telo p { margin: 5px 0; }
+        .scenar-telo strong { color: #555; }
+        .vysledek-ok { color: #2e7d32; font-weight: bold; }
+        .vysledek-fail { color: #c62828; font-weight: bold; }
+
+        /* LICENCE */
+        .licence-box {
+            background: #f8faff;
+            border: 1px solid #c5d8ff;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TITULNÍ STRANA -->
+<div class="titulni">
+    <h1>Docházkový systém</h1>
+    <p class="podtitul">Webová databázová aplikace · Školní závěrečná práce</p>
+    <table>
+        <tr><td>Autor:</td><td>Lukáš Urbanec</td></tr>
+        <tr><td>Studijní obor:</td><td>Informační technologie</td></tr>
+        <tr><td>Školní rok:</td><td>2025/2026</td></tr>
+        <tr><td>Technologie:</td><td>Python, Flask, SQLite, HTML, CSS</td></tr>
+    </table>
+</div>
+
+<!-- OBSAH -->
+<div class="obsah">
+    <h2>Obsah</h2>
+    <ol>
+        <li><a href="#anotace">Anotace</a></li>
+        <li><a href="#uvod">Úvod</a></li>
+        <li><a href="#ekonomika">Ekonomická rozvaha</a></li>
+        <li><a href="#vyvoj">Vývoj – použité technologie a struktura projektu</a></li>
+        <li><a href="#testovani">Testování</a></li>
+        <li><a href="#nasazeni">Nasazení a spuštění</a></li>
+        <li><a href="#licence">Licence</a></li>
+        <li><a href="#zdroje">Zdroje a odkazy</a></li>
+        <li><a href="#zaver">Závěr</a></li>
+    </ol>
+</div>
+
+<!-- 1. ANOTACE -->
+<div class="sekce" id="anotace">
+    <h2>1. Anotace</h2>
+    <p>
+        Tato práce popisuje vývoj webové aplikace pro evidenci uživatelů a jejich docházky.
+        Aplikace umožňuje registraci, přihlášení a odhlášení uživatelů, přičemž každá tato akce
+        je automaticky zaznamenána do databáze s přesným časovým razítkem. Součástí projektu
+        je také administrátorské rozhraní pro správu uživatelských účtů.
+        Projekt je napsán v jazyce Python s využitím webového frameworku Flask a databáze SQLite.
+    </p>
+</div>
+
+<!-- 2. ÚVOD -->
+<div class="sekce" id="uvod">
+    <h2>2. Úvod</h2>
+    <p>
+        Cílem tohoto projektu bylo vytvořit funkční webovou aplikaci, která demonstruje propojení
+        webového frontendu s databázovým backendem. Téma docházkového systému bylo zvoleno proto,
+        že jde o praktický a srozumitelný příklad reálné aplikace — podobné systémy se používají
+        ve školách, firmách i různých organizacích pro sledování přítomnosti zaměstnanců nebo studentů.
+    </p>
+    <p>
+        Aplikace je navržena jako jednoduché webové rozhraní, které uživateli umožňuje vytvořit
+        účet zadáním jména, věku, e-mailové adresy a hesla. Po registraci se může přihlásit
+        a odhlásit, přičemž každá akce je v databázi uložena jako záznam docházky s datem a časem.
+        Přihlášený uživatel má přístup ke svému osobnímu profilu, kde vidí veškerou historii
+        svých přihlášení a odhlášení.
+    </p>
+    <p>
+        Aplikace rozlišuje dvě uživatelské role. Běžný uživatel vidí pouze své vlastní údaje.
+        Administrátor — určený pevně nastavenou e-mailovou adresou — má přístup k administrátorskému
+        panelu, kde vidí seznam všech registrovaných uživatelů, celou docházku a může mazat účty.
+    </p>
+    <p>
+        Důraz byl kladen nejen na funkčnost, ale také na základní bezpečnostní principy: hesla jsou
+        ukládána jako kryptografický hash (nikdy jako čitelný text), vstupy od uživatele jsou
+        validovány a všechny databázové dotazy jsou parametrizované, čímž je aplikace chráněna
+        před SQL injection útoky.
+    </p>
+    <p>
+        Výsledkem je plně funkční webová aplikace, kterou lze spustit lokálně na libovolném počítači
+        s nainstalovaným Pythonem, bez nutnosti jakéhokoliv externího serveru nebo placených služeb.
+    </p>
+</div>
+
+<!-- 3. EKONOMICKÁ ROZVAHA -->
+<div class="sekce" id="ekonomika">
+    <h2>3. Ekonomická rozvaha</h2>
+
+    <h3>Konkurence a srovnání</h3>
+    <p>
+        Na trhu existuje řada komerčních řešení pro správu docházky — například aplikace Docházkový
+        systém ALVENO, TimeSoft nebo různé moduly v HR systémech jako Pohoda či Money S3.
+        Tyto systémy jsou zpravidla licencované, placené a vyžadují instalaci nebo předplatné.
+        Mezi volně dostupná řešení patří například Open Web Calendar nebo jednoduché tabulky v Excelu.
+    </p>
+    <p>
+        Náš projekt se od komerčních řešení liší tím, že jde o zcela otevřený, bezplatný a snadno
+        upravitelný systém. Nevyžaduje žádné předplatné ani registraci u třetí strany. Celá aplikace
+        běží lokálně a data zůstávají pouze na počítači provozovatele, což je výhoda z pohledu ochrany
+        osobních údajů (GDPR).
+    </p>
+
+    <h3>Unikátnost řešení</h3>
+    <p>
+        Oproti jednoduchým tabulkovým řešením (Excel) nabízí tato aplikace webové rozhraní přístupné
+        z libovolného prohlížeče, automatické časové razítko u každého záznamu, uživatelské role
+        a hashování hesel — tedy prvky běžné v produkčních aplikacích, které tabulky neposkytují.
+        Zároveň jde o open-source projekt, který může kdokoliv rozšířit nebo upravit pro vlastní potřeby.
+    </p>
+
+    <h3>Způsob propagace</h3>
+    <p>
+        Projekt je určen primárně jako školní práce a vzdělávací ukázka. V případě dalšího rozvoje
+        by bylo možné projekt propagovat sdílením zdrojového kódu na platformě GitHub, kde si ho
+        mohou stáhnout a použít ostatní studenti nebo vývojáři. Dalším kanálem by mohly být
+        školní nebo vývojářské komunity (např. fóra, Discord servery zaměřené na Python).
+    </p>
+
+    <h3>Náklady a návratnost investic</h3>
+    <p>
+        Projekt nevyžaduje žádné finanční náklady — veškeré použité technologie (Python, Flask,
+        SQLite) jsou zdarma a open-source. Jediným „nákladem" je čas věnovaný vývoji.
+        Protože se jedná o školní projekt bez komerčního záměru, není návratnost investic
+        relevantní. Hodnota projektu spočívá ve vzdělání a získaných zkušenostech s vývojem
+        webových aplikací a práci s databázemi.
+    </p>
+</div>
+
+<!-- 4. VÝVOJ -->
+<div class="sekce" id="vyvoj">
+    <h2>4. Vývoj</h2>
+
+    <h3>Použité technologie</h3>
+    <table>
+        <tr><th>Technologie</th><th>Verze</th><th>Účel</th></tr>
+        <tr><td>Python</td><td>3.12</td><td>Hlavní programovací jazyk</td></tr>
+        <tr><td>Flask</td><td>3.x</td><td>Webový framework – zpracování HTTP požadavků, šablony</td></tr>
+        <tr><td>SQLite</td><td>vestavěný v Pythonu</td><td>Databáze uložená jako soubor system.db</td></tr>
+        <tr><td>Werkzeug</td><td>součást Flasku</td><td>Hashování a ověřování hesel</td></tr>
+        <tr><td>Jinja2</td><td>součást Flasku</td><td>Šablonovací systém pro HTML stránky</td></tr>
+        <tr><td>HTML + CSS</td><td>–</td><td>Vzhled a rozložení webových stránek</td></tr>
+    </table>
+
+    <h3>Struktura projektu</h3>
+    <div class="kod">projekt/
+├── app.py                  # Hlavní soubor aplikace – veškerá logika
+├── system.db               # SQLite databáze (vytvoří se automaticky)
+└── templates/
+    ├── index.html          # Hlavní stránka (přihlášení / nástěnka)
+    ├── profil.html         # Osobní profil uživatele
+    └── admin.html          # Administrátorský panel</div>
+
+    <h3>Architektura aplikace</h3>
+    <p>
+        Aplikace používá architekturu MVC (Model-View-Controller) v zjednodušené podobě:
+    </p>
+    <ul>
+        <li><strong>Model</strong> – databázové funkce v <code>app.py</code> (<code>pripoj_db()</code>, SQL dotazy)</li>
+        <li><strong>View</strong> – HTML šablony ve složce <code>templates/</code> renderované přes Jinja2</li>
+        <li><strong>Controller</strong> – Flask route funkce (<code>@app.route</code>) zpracovávající požadavky</li>
+    </ul>
+
+    <div class="diagram">
+        Prohlížeč (uživatel)
+             │  HTTP požadavek
+             ▼
+        Flask server (app.py)
+             │  SQL dotaz
+             ▼
+        SQLite databáze (system.db)
+             │  data
+             ▼
+        Jinja2 šablona (HTML)
+             │  HTML stránka
+             ▼
+        Prohlížeč (uživatel)
+    </div>
+
+    <h3>Přehled URL adres (routes)</h3>
+    <table>
+        <tr><th>URL</th><th>Metoda</th><th>Funkce</th><th>Přístup</th></tr>
+        <tr><td><code>/</code></td><td>GET</td><td>Hlavní stránka</td><td>Všichni</td></tr>
+        <tr><td><code>/registrace</code></td><td>POST</td><td>Zpracování registrace</td><td>Všichni</td></tr>
+        <tr><td><code>/login</code></td><td>POST</td><td>Zpracování přihlášení</td><td>Všichni</td></tr>
+        <tr><td><code>/logout</code></td><td>GET</td><td>Odhlášení</td><td>Přihlášený</td></tr>
+        <tr><td><code>/profil</code></td><td>GET</td><td>Osobní profil a historie</td><td>Přihlášený</td></tr>
+        <tr><td><code>/admin</code></td><td>GET</td><td>Admin panel</td><td>Pouze admin</td></tr>
+        <tr><td><code>/smazat/&lt;id&gt;</code></td><td>GET</td><td>Smazání uživatele</td><td>Pouze admin</td></tr>
+    </table>
+
+    <h3>Struktura databáze</h3>
+    <p><strong>Tabulka uzivatele</strong></p>
+    <table>
+        <tr><th>Sloupec</th><th>Typ</th><th>Popis</th></tr>
+        <tr><td><code>id</code></td><td>INTEGER PRIMARY KEY</td><td>Automaticky generované číslo záznamu</td></tr>
+        <tr><td><code>jmeno</code></td><td>TEXT</td><td>Celé jméno uživatele</td></tr>
+        <tr><td><code>email</code></td><td>TEXT UNIQUE</td><td>E-mail – musí být unikátní, slouží jako přihlašovací jméno</td></tr>
+        <tr><td><code>heslo</code></td><td>TEXT</td><td>Heslo uložené jako Werkzeug hash</td></tr>
+        <tr><td><code>vek</code></td><td>INTEGER</td><td>Věk uživatele (validováno: 0–150)</td></tr>
+    </table>
+    <p><strong>Tabulka dochazka</strong></p>
+    <table>
+        <tr><th>Sloupec</th><th>Typ</th><th>Popis</th></tr>
+        <tr><td><code>id</code></td><td>INTEGER PRIMARY KEY</td><td>Automaticky generované číslo záznamu</td></tr>
+        <tr><td><code>email</code></td><td>TEXT</td><td>E-mail uživatele – propojení s tabulkou uzivatele</td></tr>
+        <tr><td><code>akce</code></td><td>TEXT</td><td>Typ akce: Registrace, Přihlášení nebo Odhlášení</td></tr>
+        <tr><td><code>cas</code></td><td>TEXT</td><td>Datum a čas ve formátu DD.MM.RRRR HH:MM:SS</td></tr>
+    </table>
+
+    <h3>Průběh vývoje</h3>
+    <p>
+        Vývoj probíhal postupně ve více fázích. Nejprve byla vytvořena základní kostra aplikace —
+        funkce pro připojení k databázi, registrace a přihlášení bez jakéhokoliv zabezpečení.
+        Ve druhé fázi bylo přidáno hashování hesel pomocí knihovny Werkzeug a validace vstupů
+        (kontrola věku a délky hesla). Chybové hlášky byly původně zobrazovány jako samostatná
+        stránka s holým textem — to bylo nahrazeno systémem Flash zpráv, které se zobrazují
+        přímo na hlavní stránce jako červený rámeček.
+    </p>
+    <p>
+        Ve třetí fázi byl přidán osobní profil uživatele a administrátorský panel. Nakonec byl
+        upraven vzhled hlavní stránky po přihlášení — z jednoduchého uvítání na školní nástěnku
+        s rozvrhem a oznámeními.
+    </p>
+
+    <h3>Dokumentace v kódu</h3>
+    <p>
+        Kód je členěn do logických bloků oddělených komentáři. Každá route funkce je označena
+        komentářem popisujícím její účel. Příklad:
+    </p>
+    <div class="kod"># -------------------------------------------------------
+# Profil uživatele – každý vidí jen svoje záznamy
+# -------------------------------------------------------
+@app.route('/profil')
+def profil():
+    # Pokud není přihlášen, pošleme ho zpět
+    if not session.get('uzivatel_email'):
+        flash("Nejdříve se přihlas!")
+        return redirect('/')
+    ...</div>
+
+    <div class="poznamka">
+        💡 Hesla jsou hashována funkcí <code>generate_password_hash()</code> a ověřována funkcí
+        <code>check_password_hash()</code> z knihovny Werkzeug. Do databáze se nikdy neukládá
+        původní heslo.
+    </div>
+</div>
+
+<!-- 5. TESTOVÁNÍ -->
+<div class="sekce" id="testovani">
+    <h2>5. Testování</h2>
+    <p>
+        Testování probíhalo manuálně — každý scénář byl ručně proveden v prohlížeči a výsledek
+        byl ověřen vizuálně i kontrolou databáze v nástroji DB Browser for SQLite.
+    </p>
+
+    <div class="scenar">
+        <div class="scenar-hlavicka">Scénář 1 – Spuštění aplikace (nasazení)</div>
+        <div class="scenar-telo">
+            <p><strong>Cíl:</strong> Ověřit, že se aplikace správně spustí a databáze se vytvoří automaticky.</p>
+            <p><strong>Postup:</strong> Spustit příkaz <code>python app.py</code> v terminálu ve složce projektu.</p>
+            <p><strong>Očekávaný výsledek:</strong> Aplikace se spustí, v terminálu se zobrazí adresa <code>http://127.0.0.1:5000</code> a v adresáři projektu se vytvoří soubor <code>system.db</code>.</p>
+            <p><strong>Výsledek:</strong> <span class="vysledek-ok">✓ Úspěch</span> – aplikace se spustila, databáze byla automaticky vytvořena funkcí <code>priprav_databazi()</code>.</p>
+        </div>
+    </div>
+
+    <div class="scenar">
+        <div class="scenar-hlavicka">Scénář 2 – Registrace nového uživatele</div>
+        <div class="scenar-telo">
+            <p><strong>Cíl:</strong> Ověřit, že registrace funguje a data se uloží do databáze.</p>
+            <p><strong>Postup:</strong> Vyplnit registrační formulář s platným jménem, věkem, e-mailem a heslem (min. 8 znaků) a odeslat.</p>
+            <p><strong>Očekávaný výsledek:</strong> Uživatel je přihlášen a přesměrován na hlavní stránku. V databázi přibyde záznam v tabulce <code>uzivatele</code> a záznam „Registrace" v tabulce <code>dochazka</code>.</p>
+            <p><strong>Výsledek:</strong> <span class="vysledek-ok">✓ Úspěch</span> – záznamy byly ověřeny v DB Browseru.</p>
+        </div>
+    </div>
+
+    <div class="scenar">
+        <div class="scenar-hlavicka">Scénář 3 – Validace vstupů (chybné údaje)</div>
+        <div class="scenar-telo">
+            <p><strong>Cíl:</strong> Ověřit, že aplikace správně odmítne neplatné vstupy.</p>
+            <p><strong>Postup:</strong> Zadat při registraci heslo kratší než 8 znaků, poté zkusit věk „abc" a věk „-5".</p>
+            <p><strong>Očekávaný výsledek:</strong> Aplikace zobrazí červenou chybovou hlášku na stejné stránce, účet se nevytvoří.</p>
+            <p><strong>Výsledek:</strong> <span class="vysledek-ok">✓ Úspěch</span> – flash zprávy se zobrazily správně, databáze zůstala nezměněna.</p>
+        </div>
+    </div>
+
+    <div class="scenar">
+        <div class="scenar-hlavicka">Scénář 4 – Přihlášení a odhlášení</div>
+        <div class="scenar-telo">
+            <p><strong>Cíl:</strong> Ověřit, že přihlášení a odhlášení funguje a zaznamenává se do docházky.</p>
+            <p><strong>Postup:</strong> Přihlásit se s platnými údaji, zkontrolovat zobrazení jména na stránce, pak se odhlásit.</p>
+            <p><strong>Očekávaný výsledek:</strong> Po přihlášení se zobrazí hlavní stránka se jménem uživatele. Po odhlášení se zobrazí přihlašovací formulář. V databázi přibydou záznamy „Přihlášení" a „Odhlášení".</p>
+            <p><strong>Výsledek:</strong> <span class="vysledek-ok">✓ Úspěch</span> – záznamy ověřeny, session byla správně smazána.</p>
+        </div>
+    </div>
+
+    <div class="scenar">
+        <div class="scenar-hlavicka">Scénář 5 – Admin panel a ochrana přístupu</div>
+        <div class="scenar-telo">
+            <p><strong>Cíl:</strong> Ověřit, že admin panel je dostupný pouze pro administrátora a že běžný uživatel na něj nemá přístup.</p>
+            <p><strong>Postup:</strong> Přihlásit se jako běžný uživatel a zkusit ručně navštívit adresu <code>/admin</code>. Poté se přihlásit jako administrátor (<code>admin@admin.cz</code>) a navštívit <code>/admin</code> standardně.</p>
+            <p><strong>Očekávaný výsledek:</strong> Běžný uživatel je přesměrován zpět na hlavní stránku s chybovou hláškou. Administrátor vidí panel se všemi uživateli a docházkou.</p>
+            <p><strong>Výsledek:</strong> <span class="vysledek-ok">✓ Úspěch</span> – ochrana funguje správně v obou případech.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 6. NASAZENÍ -->
+<div class="sekce" id="nasazeni">
+    <h2>6. Nasazení a spuštění</h2>
+
+    <h3>Požadavky</h3>
+    <ul>
+        <li>Operační systém: Windows, macOS nebo Linux</li>
+        <li>Python 3.8 nebo novější (<a href="https://python.org" target="_blank">python.org</a>)</li>
+        <li>Připojení k internetu pro instalaci knihoven (jednorázově)</li>
+    </ul>
+
+    <div class="upozorneni">
+        ⚠️ Při instalaci Pythonu na Windows je nutné zaškrtnout možnost <strong>„Add Python to PATH"</strong>,
+        jinak nebude příkaz <code>python</code> v terminálu fungovat.
+    </div>
+
+    <h3>Postup spuštění</h3>
+    <p><strong>Krok 1</strong> – Stáhnout soubory projektu a rozbalit do složky.</p>
+    <p><strong>Krok 2</strong> – Otevřít terminál (PowerShell / CMD) ve složce projektu a nainstalovat závislosti:</p>
+    <div class="kod">python -m pip install flask werkzeug</div>
+    <p><strong>Krok 3</strong> – Spustit aplikaci:</p>
+    <div class="kod">python app.py</div>
+    <p><strong>Krok 4</strong> – Otevřít prohlížeč a jít na adresu:</p>
+    <div class="kod">http://localhost:5000</div>
+
+    <div class="uspech">
+        ✅ Databáze <code>system.db</code> se vytvoří automaticky při prvním spuštění.
+        Není potřeba nic nastavovat ručně.
+    </div>
+
+    <h3>Vytvoření admin účtu</h3>
+    <p>
+        Zaregistrovat se s e-mailem <code>admin@admin.cz</code> — tento e-mail je v souboru
+        <code>app.py</code> nastaven jako administrátorský. Po přihlášení se zobrazí tlačítko
+        „Admin" vedoucí na administrátorský panel.
+    </p>
+
+    <div class="poznamka">
+        💡 Pokud se zobrazí chyba <strong>„database is locked"</strong>, je potřeba zavřít
+        DB Browser for SQLite. Obě aplikace nemohou mít databázový soubor otevřený současně.
+    </div>
+</div>
+
+<!-- 7. LICENCE -->
+<div class="sekce" id="licence">
+    <h2>7. Licence</h2>
+    <p>Tento projekt je <strong>chráněn autorským právem</strong>. Veškerá práva jsou vyhrazena. Zdrojový kód ani žádná jeho část nesmí být kopírována, šířena ani použita bez výslovného souhlasu autora.</p>
+    <div class="licence-box">
+Copyright (c) 2026 Lukáš Urbanec. All rights reserved.
+
+Tento software a jeho zdrojový kód jsou výhradním vlastnictvím autora.
+Bez předchozího písemného souhlasu autora není dovoleno:
+
+  - kopírovat nebo šířit jakoukoliv část tohoto projektu,
+  - upravovat, dekompilovat nebo vytvářet odvozená díla,
+  - používat projekt nebo jeho části pro komerční ani nekomerční účely třetích stran.
+
+Projekt byl vytvořen jako školní závěrečná práce a je určen výhradně
+pro účely hodnocení v rámci studia.
+    </div>
+</div>
+
+<!-- 8. ZDROJE -->
+<div class="sekce" id="zdroje">
+    <h2>8. Zdroje a odkazy</h2>
+    <ul>
+        <li>Oficiální dokumentace Flask: <a href="https://flask.palletsprojects.com" target="_blank">flask.palletsprojects.com</a></li>
+        <li>Dokumentace Werkzeug (hashování hesel): <a href="https://werkzeug.palletsprojects.com" target="_blank">werkzeug.palletsprojects.com</a></li>
+        <li>Dokumentace SQLite: <a href="https://www.sqlite.org/docs.html" target="_blank">sqlite.org/docs.html</a></li>
+        <li>Python dokumentace (modul sqlite3): <a href="https://docs.python.org/3/library/sqlite3.html" target="_blank">docs.python.org</a></li>
+        <li>DB Browser for SQLite: <a href="https://sqlitebrowser.org" target="_blank">sqlitebrowser.org</a></li>
+    </ul>
+</div>
+
+<!-- 9. ZÁVĚR -->
+<div class="sekce" id="zaver">
+    <h2>9. Závěr</h2>
+    <p>
+        Cílem projektu bylo vytvořit funkční webovou aplikaci pracující s databází, a tento cíl
+        byl splněn. Aplikace umožňuje registraci, přihlášení a odhlášení uživatelů, eviduje
+        docházku, rozlišuje uživatelské role a obsahuje základní bezpečnostní prvky.
+    </p>
+    <p>
+        Při vývoji jsem se naučil pracovat s webovým frameworkem Flask, porozuměl jsem principu
+        HTTP požadavků a odpovědí, naučil se pracovat s databází SQLite přímo z Pythonu
+        a pochopil, proč je hashování hesel důležité a jak funguje.
+    </p>
+    <p>
+        Největší komplikací při vývoji byla správa databázových spojení a chyba „database is locked",
+        která vznikala při současném otevření databáze ve Flasku a v DB Browseru.
+        Dalším problémem byla správná instalace Pythonu a knihoven na různých počítačích.
+    </p>
+    <p>
+        Do budoucna by bylo možné projekt rozšířit například o možnost změny hesla,
+        export docházky do CSV souboru, nebo nasazení na veřejný server, aby byl přístupný
+        odkudkoliv bez nutnosti lokálního spuštění.
+    </p>
+</div>
+
+<footer>
+    Docházkový systém · Lukáš Urbanec · Informační technologie · 2025/2026
+</footer>
+
+</body>
+</html>
